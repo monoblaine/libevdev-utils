@@ -4,7 +4,7 @@ This code is used to create a virtual mouse with both vertical and horizontal wh
 
 Together with [`libinput`](https://freedesktop.org/wiki/Software/libinput/), [`xf86-input-libinput`](https://gitlab.freedesktop.org/xorg/driver/xf86-input-libinput) and [the patch that adds the ability to adjust scroll distance](https://gitlab.freedesktop.org/xorg/driver/xf86-input-libinput/-/merge_requests/12), you will finally have the incredible-and-almost-impossible power to adjust scroll distance on Linux. (The `libinput Scroll Distance Scale` setting)
 
-All credits go to @blackle and their amazing and very detailed tutorial on https://suricrasia.online/blog/turning-a-keyboard-into/, it helped so much.
+All credits go to [@blackle](https://github.com/blackle/) and their amazing and very detailed tutorial on https://suricrasia.online/blog/turning-a-keyboard-into/, it helped so much.
 
 # `get_virtual_mouse_path.cpp`
 
