@@ -23,7 +23,7 @@ int main () {
             dev = nullptr;
             if (name == deviceName) {
                 close(fd);
-                std::cout << path;
+                std::cout << path << std::endl;
                 return 0;
             }
         }
