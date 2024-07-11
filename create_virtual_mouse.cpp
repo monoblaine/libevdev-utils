@@ -4,6 +4,8 @@
 #include <libevdev/libevdev.h>
 #include <libevdev/libevdev-uinput.h>
 #include <iostream>
+#include <unistd.h>
+#include <fcntl.h>
 #include <signal.h>
 
 struct libevdev_uinput* m_uinput = nullptr;
@@ -15,8 +17,27 @@ void signal_handler (sig_atomic_t s) {
 
 // g++ create_virtual_mouse.cpp -o create_virtual_mouse `pkg-config --cflags --libs libevdev`
 int main () {
-    struct libevdev* dev = libevdev_new();
-    libevdev_set_name(dev, "Virtual Mouse");
+    const std::string deviceName = "Virtual Mouse";
+    struct libevdev *dev = nullptr;
+    for (int i = 0;; i++) {
+        std::string path = "/dev/input/event" + std::to_string(i);
+        int fd = open(path.c_str(), O_RDONLY);
+        if (fd == -1) {
+            break; // no more character devices
+        }
+        if (libevdev_new_from_fd(fd, &dev) == 0) {
+            std::string name = libevdev_get_name(dev);
+            libevdev_free(dev);
+            dev = nullptr;
+            if (name == deviceName) {
+                close(fd);
+                return 0;
+            }
+        }
+        close(fd);
+    }
+    dev = libevdev_new();
+    libevdev_set_name(dev, deviceName.c_str());
     libevdev_enable_property(dev, INPUT_PROP_POINTER);
     libevdev_enable_event_type(dev, EV_REL);
     libevdev_enable_event_code(dev, EV_REL, REL_X, nullptr);
